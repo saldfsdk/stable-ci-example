@@ -1,4 +1,4 @@
-﻿# stable-ci example
+# stable-ci example
 
 External integration example for [stable-ci](https://github.com/saldfsdk/stable-ci).
 
@@ -6,8 +6,8 @@ This repository verifies that stable-ci can be consumed from a separate GitHub r
 
 It tests both distribution paths:
 
-- npm: `stable-ci@0.1.2`
-- GitHub Action: `saldfsdk/stable-ci@v0.1.2`
+- npm: `stable-ci@0.1.3`
+- GitHub Action: `saldfsdk/stable-ci@v0.1.3`
 
 ## What the CI does
 
@@ -22,4 +22,4 @@ It tests both distribution paths:
 ```bash
 npm install
 npx stable-ci --version
-
+```
