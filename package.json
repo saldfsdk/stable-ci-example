@@ -1,0 +1,9 @@
+﻿{
+  "name": "stable-ci-example",
+  "version": "0.0.0",
+  "private": true,
+  "description": "External integration example for stable-ci",
+  "devDependencies": {
+    "stable-ci": "0.1.2"
+  }
+}

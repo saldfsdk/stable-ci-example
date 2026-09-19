@@ -1,0 +1,67 @@
+﻿name: stable-ci external integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  stable-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install example dependencies
+        run: npm ci
+
+      - name: Start safe demo payment application
+        run: |
+          npx stable-ci demo-server --profile safe --port 4310 > demo-server.log 2>&1 &
+          echo $! > demo-server.pid
+
+          for i in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:4310/state > /dev/null; then
+              echo "Demo payment application is ready."
+              exit 0
+            fi
+
+            sleep 1
+          done
+
+          echo "Demo payment application did not start."
+          cat demo-server.log
+          exit 1
+
+      - name: Run stable-ci from external repository
+        uses: saldfsdk/stable-ci@v0.1.2
+        with:
+          config: stable-ci.yml
+          junit: reports/stable-ci.xml
+
+      - name: Show JUnit report
+        if: always()
+        run: |
+          if [ -f reports/stable-ci.xml ]; then
+            cat reports/stable-ci.xml
+          fi
+
+      - name: Show demo server log on failure
+        if: failure()
+        run: cat demo-server.log || true
+
+      - name: Stop demo application
+        if: always()
+        run: |
+          if [ -f demo-server.pid ]; then
+            kill "$(cat demo-server.pid)" || true
+          fi
