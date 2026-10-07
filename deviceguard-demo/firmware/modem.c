@@ -1,9 +1,9 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 
-#define LEGACY_MODE 2
+#define LEGACY_MODE 1
 #define SAFE_MODE 1
 #define SAFE_TIMEOUT 30
-static const int LEGACY_WINDOW = 200;
+static const int LEGACY_WINDOW = 120;
 
 static void send_cfg(int mode, int timeout) {
     char buf[64];
@@ -27,3 +27,4 @@ int main(void) {
     send_window(LEGACY_WINDOW);
     return 0;
 }
+
