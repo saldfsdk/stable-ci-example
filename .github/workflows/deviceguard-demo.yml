@@ -1,0 +1,42 @@
+name: DeviceGuard live demo
+
+on:
+  push:
+    branches:
+      - deviceguard-live-demo
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "deviceguard-demo/**"
+      - ".github/workflows/deviceguard-demo.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    name: DeviceGuard compatibility gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install DeviceGuard
+        run: python -m pip install --disable-pip-version-check ./deviceguard-demo/deviceguard_action_bundle.zip
+
+      - name: Run DeviceGuard
+        id: deviceguard
+        env:
+          DG_DEPENDENCY: quectel/bg95-m3@OLD..NEW
+          DG_REPO: deviceguard-demo/firmware
+          DG_OLD_SPEC: deviceguard-demo/vendor/old_spec.txt
+          DG_NEW_SPEC: deviceguard-demo/vendor/new_spec.txt
+          DG_FAIL_ON_REVIEW: "false"
+          DG_MAX_ANNOTATIONS: "50"
+        run: python -m deviceguard.ci.github
