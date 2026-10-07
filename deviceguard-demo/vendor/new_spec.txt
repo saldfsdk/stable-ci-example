@@ -1,0 +1,31 @@
+Quectel BG95 Series AT Commands Manual - NEW SEMANTIC SAMPLE
+
+6.1 AT+QCFGTEST Configure Test Mode
+Write Command
+AT+QCFGTEST=<mode>,<timeout>
+Response
++QCFGTEST: <mode>,<timeout>
+Parameter
+<mode> Integer type. Range: 0-2.
+- 0 Disabled
+- 1 Normal
+- 2 Extended
+<timeout> Integer type. Range: 1-60.
+
+6.2 AT+QMODE Configure Mode
+Write Command
+AT+QMODE=<mode>
+Response
++QMODE: <mode>
+Parameter
+<mode> Integer type.
+- 0 Automatic
+- 1 Manual
+
+6.3 AT+QWINDOW Configure Window
+Write Command
+AT+QWINDOW=<window>
+Response
++QWINDOW: <window>
+Parameter
+<window> Integer type. Range: 10-120.
